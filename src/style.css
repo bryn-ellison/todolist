@@ -3,7 +3,27 @@
     src: url('./my-font.woff2') format('woff2');
   }
 
-.hello {
-    color: red;
-    font-family: MyFont;
-  }
+/* Todo items */
+
+.todo-item-container {
+    display: grid;
+    border: 1px solid black;
+    padding: 1rem;
+    width: 500px;
+}
+
+.todo-item-title {
+    font-size: 1.5rem;
+}
+
+.todo-item-description {
+    font-size: 1.1rem;
+}
+
+.todo-item-duedate {
+    font-size: 1.1rem;
+}
+
+.todo-item-priority {
+    font-size: 1.1rem;
+}

@@ -1,9 +1,10 @@
 import "./style.css";
+import { formatDistance, subDays } from "date-fns";
+import { createToDo } from "./create-todo";
+import { displayToDo } from "./DOM-update";
 
 const content = document.querySelector("#content");
 
-const testing = document.createElement("p");
-testing.textContent = "HELLO";
-testing.classList = "hello";
-
-content.appendChild(testing);
+content.appendChild(
+  displayToDo(createToDo("Task 1", "This is a test task", "1/1/2023", "High"))
+);
