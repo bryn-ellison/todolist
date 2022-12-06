@@ -20,4 +20,19 @@ function displayToDo(toDoObj) {
   return toDoItem;
 }
 
-export { displayToDo };
+//display project
+
+//display projects list (array of projects)
+
+//display todo list (array of lists)
+
+function displayToDoList(list) {
+  const toDoListDisplay = document.createElement("div");
+  list.forEach((element) => {
+    let displayedItem = displayToDo(element);
+    toDoListDisplay.appendChild(displayedItem);
+  });
+  return toDoListDisplay;
+}
+
+export { displayToDo, displayToDoList };
