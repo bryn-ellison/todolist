@@ -3,6 +3,33 @@
     src: url('./my-font.woff2') format('woff2');
   }
 
+body {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    font-family: MyFont;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Header */
+
+#header {
+    display: flex;
+    background-color: #2e3f51;
+    padding: 1rem;
+}
+
+#logo {
+    font-size: 2rem;
+    color: #f3643d;
+}
+
 /* Todo items */
 
 .todo-item-container {
@@ -25,5 +52,20 @@
 }
 
 .todo-item-priority {
+    font-size: 1.1rem;
+}
+
+/* Project items */
+
+.project-item-container {
+    display: grid;
+    border: 1px solid black;
+}
+
+.project-item-title {
+    font-size: 1.5rem;
+}
+
+.project-item-description {
     font-size: 1.1rem;
 }

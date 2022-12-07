@@ -1,6 +1,5 @@
 const createProject = (title, priority) => {
-  this.todosInThisProject = [];
-  return { title, priority, todosInThisProject };
+  return { title, priority, toDosInThisProject: [] };
 };
 
 //delete project
