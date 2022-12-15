@@ -1,5 +1,5 @@
-const createProject = (title, priority) => {
-  return { title, priority, toDosInThisProject: [] };
+const createProject = (title, description, priority) => {
+  return { title, description, priority };
 };
 
 //delete project

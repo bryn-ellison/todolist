@@ -32,11 +32,19 @@ body {
 
 /* Todo items */
 
+#todo-list-container {
+    border: 3px solid black;
+    width: 500px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .todo-item-container {
     display: grid;
     border: 1px solid black;
-    padding: 1rem;
-    width: 500px;
+    width: 100%;
 }
 
 .todo-item-title {

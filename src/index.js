@@ -6,6 +6,9 @@ import {
   displayToDoList,
   displayHeader,
   displayMain,
+  displayProject,
+  displayProjectList,
+  removeAllChildNodes,
 } from "./DOM-update";
 import { createProject } from "./projects";
 
@@ -31,6 +34,33 @@ function addToProjectList(newProject) {
   projectsList.push(newProject);
 }
 
+// add project to todo item
+
+function addProjectToToDo(toDoTitle, selection) {
+  const found = todoMainList.find((todo) => todo.title === toDoTitle);
+  found.project = selection;
+}
+
+//sort todos by project
+
+function sortToDoByProject(project) {
+  //removeAllChildNodes(toDoListDisplay);
+  if (project === "All tasks") {
+    main.replaceChild(
+      displayToDoList(todoMainList, projectsList),
+      main.childNodes[1]
+    );
+  } else {
+    const filteredList = todoMainList.filter(
+      (todo) => todo.project === project
+    );
+    main.replaceChild(
+      displayToDoList(filteredList, projectsList),
+      main.childNodes[1]
+    );
+  }
+}
+
 //create test todo items
 
 addToDoToList(createToDo("Task 1", "This is a test task", "1/1/2023", "High"));
@@ -47,9 +77,12 @@ addToProjectList(createProject("Project 2", "High"));
 //append content to page
 
 const main = displayMain();
-
-const toDoListDisplay = displayToDoList(todoMainList);
+const projectListDisplay = displayProjectList(projectsList);
+const toDoListDisplay = displayToDoList(todoMainList, projectsList);
 
 content.appendChild(displayHeader());
+main.appendChild(projectListDisplay);
 main.appendChild(toDoListDisplay);
 content.appendChild(main);
+
+export { sortToDoByProject, addProjectToToDo };
