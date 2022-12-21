@@ -1,14 +1,22 @@
-import { sortToDoByProject, addProjectToToDo } from "./index";
+import { sortToDoByProject, addProjectToToDo, addToDoToList } from "./index";
+import { createToDo } from "./todos";
 
 //build header
 
-function displayHeader() {
+function displayHeader(priorities, projectsList, toDoList) {
   const header = document.createElement("div");
   header.id = "header";
   const logo = document.createElement("div");
   logo.id = "logo";
   logo.textContent = "ToDoodly";
+  const addBtn = document.createElement("button");
+  addBtn.id = "add-button";
+  addBtn.textContent = "+ add todo";
+  addBtn.addEventListener("click", () => {
+    displayAddForm(priorities, projectsList, toDoList);
+  });
   header.appendChild(logo);
+  header.appendChild(addBtn);
   return header;
 }
 
@@ -18,6 +26,65 @@ function displayMain() {
   const main = document.createElement("div");
   main.id = "main";
   return main;
+}
+
+//display add form
+
+function displayAddForm(priorities, projectsList, toDoList) {
+  const main = document.querySelector("#content");
+  const form = document.createElement("div");
+  const formTitle = document.createElement("h2");
+  formTitle.textContent = "Add new ToDo";
+  form.id = "add-todo-form";
+  const titleInput = document.createElement("input");
+  titleInput.classList = "form-inputs";
+  titleInput.placeholder = "Task title";
+  const descriptionInput = document.createElement("textarea");
+  descriptionInput.classList = "form-inputs";
+  descriptionInput.placeholder = "Description";
+  descriptionInput.rows = 10;
+  descriptionInput.wrap = "hard";
+  const dateInput = document.createElement("input");
+  dateInput.classList = "form-inputs";
+  dateInput.type = "date";
+  const priorityInput = document.createElement("select");
+  priorityInput.classList = "form-inputs";
+  priorities.forEach((element) => {
+    const prioritiesListItem = document.createElement("option");
+    prioritiesListItem.textContent = element;
+    priorityInput.appendChild(prioritiesListItem);
+  });
+  const project = document.createElement("select");
+  project.classList = "form-inputs";
+  projectsList.forEach((element) => {
+    const projectListItem = document.createElement("option");
+    projectListItem.textContent = element.title;
+    project.appendChild(projectListItem);
+  });
+  const submit = document.createElement("button");
+  submit.textContent = "CREATE";
+  submit.id = "submit-button";
+  submit.addEventListener("click", () => {
+    addToDoToList(
+      createToDo(
+        titleInput.value,
+        descriptionInput.value,
+        dateInput.value,
+        priorityInput.value,
+        project.value
+      )
+    );
+    sortToDoByProject(project.value);
+    main.removeChild(form);
+  });
+  form.appendChild(formTitle);
+  form.appendChild(titleInput);
+  form.appendChild(descriptionInput);
+  form.appendChild(dateInput);
+  form.appendChild(priorityInput);
+  form.appendChild(project);
+  form.appendChild(submit);
+  main.appendChild(form);
 }
 
 //build footer

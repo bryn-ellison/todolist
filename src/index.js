@@ -22,6 +22,10 @@ const projectsList = [];
 
 const todoMainList = [];
 
+// priorities array
+
+const priorities = ["High", "Medium", "Low"];
+
 // add new todos to todo list
 
 function addToDoToList(newTodo) {
@@ -80,9 +84,9 @@ const main = displayMain();
 const projectListDisplay = displayProjectList(projectsList);
 const toDoListDisplay = displayToDoList(todoMainList, projectsList);
 
-content.appendChild(displayHeader());
+content.appendChild(displayHeader(priorities, projectsList, todoMainList));
 main.appendChild(projectListDisplay);
 main.appendChild(toDoListDisplay);
 content.appendChild(main);
 
-export { sortToDoByProject, addProjectToToDo };
+export { sortToDoByProject, addProjectToToDo, addToDoToList };
