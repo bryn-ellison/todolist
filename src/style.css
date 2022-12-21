@@ -38,6 +38,15 @@ body {
 
 /* Form */
 
+.disable-outside-clicks {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10000;
+  }
+
 #add-todo-form {
     width: 450px;
     height: 600px;
@@ -69,7 +78,7 @@ body {
     color: black;
 }
 
-#submit-button {
+.form-button {
     align-self: center;
     padding: 1rem;
     margin-top: 1rem;
@@ -95,6 +104,11 @@ body {
 
 .todo-item-title {
     font-size: 1.5rem;
+}
+
+#delete-todo-btn {
+    border: none;
+    width: 30px;
 }
 
 .todo-item-description {

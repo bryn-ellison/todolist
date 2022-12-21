@@ -20,7 +20,7 @@ const projectsList = [];
 
 // store todo list
 
-const todoMainList = [];
+let todoMainList = [];
 
 // priorities array
 
@@ -30,6 +30,13 @@ const priorities = ["High", "Medium", "Low"];
 
 function addToDoToList(newTodo) {
   todoMainList.push(newTodo);
+}
+
+// delete todo from list
+
+function deleteToDo(todoTitle, todoProject) {
+  todoMainList = todoMainList.filter((todo) => todo.title != todoTitle);
+  sortToDoByProject(todoProject);
 }
 
 // add new projects to project list
@@ -89,4 +96,4 @@ main.appendChild(projectListDisplay);
 main.appendChild(toDoListDisplay);
 content.appendChild(main);
 
-export { sortToDoByProject, addProjectToToDo, addToDoToList };
+export { sortToDoByProject, addProjectToToDo, addToDoToList, deleteToDo };

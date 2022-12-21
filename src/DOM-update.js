@@ -1,4 +1,9 @@
-import { sortToDoByProject, addProjectToToDo, addToDoToList } from "./index";
+import {
+  sortToDoByProject,
+  addProjectToToDo,
+  addToDoToList,
+  deleteToDo,
+} from "./index";
 import { createToDo } from "./todos";
 
 //build header
@@ -32,6 +37,8 @@ function displayMain() {
 
 function displayAddForm(priorities, projectsList, toDoList) {
   const main = document.querySelector("#content");
+  const disableClick = document.createElement("div");
+  disableClick.classList = "disable-outside-clicks";
   const form = document.createElement("div");
   const formTitle = document.createElement("h2");
   formTitle.textContent = "Add new ToDo";
@@ -61,9 +68,15 @@ function displayAddForm(priorities, projectsList, toDoList) {
     projectListItem.textContent = element.title;
     project.appendChild(projectListItem);
   });
+  const cancelBtn = document.createElement("button");
+  cancelBtn.textContent = "CANCEL";
+  cancelBtn.classList = "form-button";
+  cancelBtn.addEventListener("click", () => {
+    main.removeChild(disableClick);
+  });
   const submit = document.createElement("button");
   submit.textContent = "CREATE";
-  submit.id = "submit-button";
+  submit.classList = "form-button";
   submit.addEventListener("click", () => {
     addToDoToList(
       createToDo(
@@ -75,7 +88,7 @@ function displayAddForm(priorities, projectsList, toDoList) {
       )
     );
     sortToDoByProject(project.value);
-    main.removeChild(form);
+    main.removeChild(disableClick);
   });
   form.appendChild(formTitle);
   form.appendChild(titleInput);
@@ -83,8 +96,10 @@ function displayAddForm(priorities, projectsList, toDoList) {
   form.appendChild(dateInput);
   form.appendChild(priorityInput);
   form.appendChild(project);
+  form.appendChild(cancelBtn);
   form.appendChild(submit);
-  main.appendChild(form);
+  disableClick.appendChild(form);
+  main.appendChild(disableClick);
 }
 
 //build footer
@@ -97,6 +112,12 @@ function displayToDo(toDoObj, projectsList) {
   const title = document.createElement("h3");
   title.classList = "todo-item-title";
   title.textContent = toDoObj.title;
+  const deleteBtn = document.createElement("button");
+  deleteBtn.id = "delete-todo-btn";
+  deleteBtn.textContent = "X";
+  deleteBtn.addEventListener("click", () => {
+    deleteToDo(toDoObj.title, toDoObj.project);
+  });
   const description = document.createElement("p");
   description.classList = "todo-item-description";
   description.textContent = toDoObj.description;
@@ -120,6 +141,7 @@ function displayToDo(toDoObj, projectsList) {
     project.appendChild(projectListItem);
   });
   toDoItem.appendChild(title);
+  toDoItem.appendChild(deleteBtn);
   toDoItem.appendChild(description);
   toDoItem.appendChild(dueDate);
   toDoItem.appendChild(priority);
