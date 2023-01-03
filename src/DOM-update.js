@@ -155,7 +155,6 @@ function displayProjectForm(priorities, projectsList) {
         priorityInput.value
       )
     );
-    console.log(projectsList);
     updateProjectListDisplay(projectsList);
     main.removeChild(disableClick);
   });
@@ -232,6 +231,7 @@ function displayProject(projectObj) {
   const selectedProject = projectObj.title;
   projectItem.addEventListener("click", () => {
     sortToDoByProject(selectedProject);
+    updateProjectInfo(projectObj);
   });
   return projectItem;
 }
@@ -250,6 +250,14 @@ function displayProjectInfo(projectObj) {
   projectItem.appendChild(title);
   projectItem.appendChild(description);
   return projectItem;
+}
+
+//update project info
+
+function updateProjectInfo(projectObj) {
+  const main = document.getElementById("main");
+  const newInfo = displayProjectInfo(projectObj);
+  main.replaceChild(newInfo, main.childNodes[1]);
 }
 
 //display projects list (array of projects)
@@ -291,4 +299,5 @@ export {
   displayProject,
   displayProjectList,
   removeAllChildNodes,
+  displayProjectInfo,
 };
