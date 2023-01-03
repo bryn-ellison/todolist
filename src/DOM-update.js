@@ -3,7 +3,9 @@ import {
   addProjectToToDo,
   addToDoToList,
   deleteToDo,
+  addToProjectList,
 } from "./index";
+import { createProject } from "./projects";
 import { createToDo } from "./todos";
 
 //build header
@@ -14,14 +16,23 @@ function displayHeader(priorities, projectsList, toDoList) {
   const logo = document.createElement("div");
   logo.id = "logo";
   logo.textContent = "ToDoodly";
-  const addBtn = document.createElement("button");
-  addBtn.id = "add-button";
-  addBtn.textContent = "+ add todo";
-  addBtn.addEventListener("click", () => {
+  const btnContainer = document.createElement("div");
+  const addToDoBtn = document.createElement("button");
+  addToDoBtn.classList = "menu-button";
+  addToDoBtn.textContent = "+ todo";
+  addToDoBtn.addEventListener("click", () => {
     displayAddForm(priorities, projectsList, toDoList);
   });
+  const addProjectBtn = document.createElement("button");
+  addProjectBtn.classList = "menu-button";
+  addProjectBtn.textContent = "+ project";
+  addProjectBtn.addEventListener("click", () => {
+    displayProjectForm(priorities, projectsList);
+  });
   header.appendChild(logo);
-  header.appendChild(addBtn);
+  btnContainer.appendChild(addToDoBtn);
+  btnContainer.appendChild(addProjectBtn);
+  header.appendChild(btnContainer);
   return header;
 }
 
@@ -33,7 +44,7 @@ function displayMain() {
   return main;
 }
 
-//display add form
+//display add todo form
 
 function displayAddForm(priorities, projectsList, toDoList) {
   const main = document.querySelector("#content");
@@ -42,7 +53,7 @@ function displayAddForm(priorities, projectsList, toDoList) {
   const form = document.createElement("div");
   const formTitle = document.createElement("h2");
   formTitle.textContent = "Add new ToDo";
-  form.id = "add-todo-form";
+  form.classList = "add-form";
   const titleInput = document.createElement("input");
   titleInput.classList = "form-inputs";
   titleInput.placeholder = "Task title";
@@ -100,6 +111,69 @@ function displayAddForm(priorities, projectsList, toDoList) {
   form.appendChild(submit);
   disableClick.appendChild(form);
   main.appendChild(disableClick);
+}
+
+// display add project form
+
+function displayProjectForm(priorities, projectsList) {
+  const main = document.querySelector("#content");
+  const disableClick = document.createElement("div");
+  disableClick.classList = "disable-outside-clicks";
+  const form = document.createElement("div");
+  const formTitle = document.createElement("h2");
+  formTitle.textContent = "Add new project";
+  form.classList = "add-form";
+  const titleInput = document.createElement("input");
+  titleInput.classList = "form-inputs";
+  titleInput.placeholder = "Project title";
+  const descriptionInput = document.createElement("textarea");
+  descriptionInput.classList = "form-inputs";
+  descriptionInput.placeholder = "Description";
+  descriptionInput.rows = 10;
+  descriptionInput.wrap = "hard";
+  const priorityInput = document.createElement("select");
+  priorityInput.classList = "form-inputs";
+  priorities.forEach((element) => {
+    const prioritiesListItem = document.createElement("option");
+    prioritiesListItem.textContent = element;
+    priorityInput.appendChild(prioritiesListItem);
+  });
+  const cancelBtn = document.createElement("button");
+  cancelBtn.textContent = "CANCEL";
+  cancelBtn.classList = "form-button";
+  cancelBtn.addEventListener("click", () => {
+    main.removeChild(disableClick);
+  });
+  const submit = document.createElement("button");
+  submit.textContent = "CREATE";
+  submit.classList = "form-button";
+  submit.addEventListener("click", () => {
+    addToProjectList(
+      createProject(
+        titleInput.value,
+        descriptionInput.value,
+        priorityInput.value
+      )
+    );
+    console.log(projectsList);
+    updateProjectListDisplay(projectsList);
+    main.removeChild(disableClick);
+  });
+  form.appendChild(formTitle);
+  form.appendChild(titleInput);
+  form.appendChild(descriptionInput);
+  form.appendChild(priorityInput);
+  form.appendChild(cancelBtn);
+  form.appendChild(submit);
+  disableClick.appendChild(form);
+  main.appendChild(disableClick);
+}
+
+// update project list display
+
+function updateProjectListDisplay(projectsList) {
+  const main = document.getElementById("main");
+  main.replaceChild(displayProjectList(projectsList), main.childNodes[0]);
 }
 
 //build footer

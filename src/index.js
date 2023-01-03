@@ -82,8 +82,14 @@ addToDoToList(createToDo("Task 3", "Test task 3 is here", "20/01/2024", "Low"));
 
 //create test project items
 
-addToProjectList(createProject("All tasks", "No priority"));
-addToProjectList(createProject("Project 2", "High"));
+addToProjectList(
+  createProject(
+    "All tasks",
+    "All tasks in any project are displayed here",
+    "No priority"
+  )
+);
+addToProjectList(createProject("Project 2", "Pro 2 desc", "High"));
 
 //append content to page
 
@@ -96,4 +102,10 @@ main.appendChild(projectListDisplay);
 main.appendChild(toDoListDisplay);
 content.appendChild(main);
 
-export { sortToDoByProject, addProjectToToDo, addToDoToList, deleteToDo };
+export {
+  sortToDoByProject,
+  addProjectToToDo,
+  addToDoToList,
+  deleteToDo,
+  addToProjectList,
+};

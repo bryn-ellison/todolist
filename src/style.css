@@ -32,8 +32,9 @@ body {
     color: #f3643d;
 }
 
-#add-button {
+.menu-button {
     border: none;
+    margin: .2rem;
 }
 
 /* Form */
@@ -47,7 +48,7 @@ body {
     z-index: 10000;
   }
 
-#add-todo-form {
+.add-form {
     width: 450px;
     height: 600px;
     position: absolute;
@@ -63,7 +64,6 @@ body {
     background-color: white;
     border: 3px solid black;
     padding: 1rem;
-
 }
 
 .form-inputs {
