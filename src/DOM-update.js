@@ -182,6 +182,7 @@ function updateProjectListDisplay(projectsList) {
 function displayToDo(toDoObj, projectsList) {
   const toDoItem = document.createElement("div");
   toDoItem.classList = "todo-item-container";
+  toDoItem.id = toDoObj.title + Math.ceil(Math.random() * 10000);
   const title = document.createElement("h3");
   title.classList = "todo-item-title";
   title.textContent = toDoObj.title;
@@ -191,16 +192,35 @@ function displayToDo(toDoObj, projectsList) {
   deleteBtn.addEventListener("click", () => {
     deleteToDo(toDoObj.title, toDoObj.project);
   });
-  const description = document.createElement("p");
-  description.classList = "todo-item-description";
-  description.textContent = toDoObj.description;
   const dueDate = document.createElement("p");
   dueDate.classList = "todo-item-duedate";
   dueDate.textContent = toDoObj.dueDate;
+  const expandBtn = document.createElement("button");
+  expandBtn.textContent = "⌄";
+  expandBtn.addEventListener("click", () => {
+    expandToDoItem(toDoObj, projectsList, toDoItem.id);
+    toDoItem.removeChild(expandBtn);
+  });
+  toDoItem.appendChild(title);
+  toDoItem.appendChild(deleteBtn);
+  toDoItem.appendChild(dueDate);
+  toDoItem.appendChild(expandBtn);
+  return toDoItem;
+}
+
+//expand todo item
+
+function expandToDoItem(toDoObj, projectsList, id) {
+  const toDoItem = document.getElementById(id);
+  const description = document.createElement("p");
+  description.classList = "todo-item-description";
+  description.textContent = toDoObj.description;
   const priority = document.createElement("p");
   priority.classList = "todo-item-priority";
   priority.textContent = toDoObj.priority;
   const project = document.createElement("select");
+  const title = toDoObj.title;
+
   projectsList.forEach((element) => {
     const projectListItem = document.createElement("option");
     projectListItem.textContent = element.title;
@@ -209,18 +229,31 @@ function displayToDo(toDoObj, projectsList) {
     }
     project.addEventListener("change", (event) => {
       const selection = event.target.value;
-      addProjectToToDo(title.textContent, selection);
+      addProjectToToDo(title, selection);
     });
     project.appendChild(projectListItem);
   });
-  toDoItem.appendChild(title);
-  toDoItem.appendChild(deleteBtn);
+  const expandBtn = document.createElement("button");
+  expandBtn.textContent = "⌄";
+  expandBtn.addEventListener("click", () => {
+    expandToDoItem(toDoObj, projectsList, toDoItem.id);
+    toDoItem.removeChild(expandBtn);
+  });
+  const minimiseBtn = document.createElement("button");
+  minimiseBtn.textContent = "^";
+  minimiseBtn.addEventListener("click", () => {
+    const main = document.getElementById("todo-list-container");
+    main.replaceChild(displayToDo(toDoObj, projectsList), toDoItem);
+  });
   toDoItem.appendChild(description);
-  toDoItem.appendChild(dueDate);
   toDoItem.appendChild(priority);
   toDoItem.appendChild(project);
-  return toDoItem;
+  toDoItem.appendChild(minimiseBtn);
 }
+
+//minimise todo item
+
+function minimiseToDoItem() {}
 
 //display project buttons
 
