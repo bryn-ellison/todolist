@@ -4,9 +4,11 @@ import {
   addToDoToList,
   deleteToDo,
   addToProjectList,
+  editToDo,
 } from "./index";
 import { createProject } from "./projects";
 import { createToDo } from "./todos";
+import { format, parseISO } from "date-fns";
 
 //build header
 
@@ -15,7 +17,7 @@ function displayHeader(priorities, projectsList, toDoList) {
   header.id = "header";
   const logo = document.createElement("div");
   logo.id = "logo";
-  logo.textContent = "ToDoodly";
+  logo.textContent = "Taskmaster";
   const btnContainer = document.createElement("div");
   const addToDoBtn = document.createElement("button");
   addToDoBtn.classList = "menu-button";
@@ -97,6 +99,85 @@ function displayAddForm(priorities, projectsList, toDoList) {
         priorityInput.value,
         project.value
       )
+    );
+    sortToDoByProject(project.value);
+    main.removeChild(disableClick);
+  });
+  form.appendChild(formTitle);
+  form.appendChild(titleInput);
+  form.appendChild(descriptionInput);
+  form.appendChild(dateInput);
+  form.appendChild(priorityInput);
+  form.appendChild(project);
+  form.appendChild(cancelBtn);
+  form.appendChild(submit);
+  disableClick.appendChild(form);
+  main.appendChild(disableClick);
+}
+
+// display edit todo form
+
+function displayEditForm(priorities, projectsList, toDoObj) {
+  const main = document.querySelector("#content");
+  const disableClick = document.createElement("div");
+  disableClick.classList = "disable-outside-clicks";
+  const form = document.createElement("div");
+  const formTitle = document.createElement("h2");
+  formTitle.textContent = "Edit task";
+  form.classList = "add-form";
+  const titleInput = document.createElement("input");
+  titleInput.classList = "form-inputs";
+  titleInput.defaultValue = toDoObj.title;
+  const descriptionInput = document.createElement("textarea");
+  descriptionInput.classList = "form-inputs";
+  descriptionInput.defaultValue = toDoObj.description;
+  descriptionInput.rows = 10;
+  descriptionInput.wrap = "hard";
+  const dateInput = document.createElement("input");
+  dateInput.classList = "form-inputs";
+  dateInput.type = "date";
+
+  //const newDate = format(parseISO(toDoObj.dueDate), "YYYY/MM/DD");
+  //console.log(newDate);
+  // dateInput.value = toDoObj.dueDate;
+  dateInput.defaultValue = toDoObj.dueDate;
+  const priorityInput = document.createElement("select");
+  priorityInput.classList = "form-inputs";
+  priorities.forEach((element) => {
+    const prioritiesListItem = document.createElement("option");
+    prioritiesListItem.textContent = element;
+    priorityInput.appendChild(prioritiesListItem);
+    if (element === toDoObj.priority) {
+      priorityInput.selectedIndex = priorities.indexOf(element);
+    }
+  });
+  const project = document.createElement("select");
+  project.classList = "form-inputs";
+  projectsList.forEach((element) => {
+    const projectListItem = document.createElement("option");
+    projectListItem.textContent = element.title;
+    project.appendChild(projectListItem);
+    if (element.title === toDoObj.project) {
+      project.selectedIndex = projectsList.indexOf(element);
+    }
+  });
+  const cancelBtn = document.createElement("button");
+  cancelBtn.textContent = "CANCEL";
+  cancelBtn.classList = "form-button";
+  cancelBtn.addEventListener("click", () => {
+    main.removeChild(disableClick);
+  });
+  const submit = document.createElement("button");
+  submit.textContent = "CREATE";
+  submit.classList = "form-button";
+  submit.addEventListener("click", () => {
+    editToDo(
+      toDoObj.title,
+      titleInput.value,
+      descriptionInput.value,
+      dateInput.value,
+      priorityInput.value,
+      project.value
     );
     sortToDoByProject(project.value);
     main.removeChild(disableClick);
@@ -220,7 +301,6 @@ function expandToDoItem(toDoObj, projectsList, id) {
   priority.textContent = toDoObj.priority;
   const project = document.createElement("select");
   const title = toDoObj.title;
-
   projectsList.forEach((element) => {
     const projectListItem = document.createElement("option");
     projectListItem.textContent = element.title;
@@ -233,11 +313,10 @@ function expandToDoItem(toDoObj, projectsList, id) {
     });
     project.appendChild(projectListItem);
   });
-  const expandBtn = document.createElement("button");
-  expandBtn.textContent = "⌄";
-  expandBtn.addEventListener("click", () => {
-    expandToDoItem(toDoObj, projectsList, toDoItem.id);
-    toDoItem.removeChild(expandBtn);
+  const editBtn = document.createElement("button");
+  editBtn.textContent = "Edit task";
+  editBtn.addEventListener("click", () => {
+    displayEditForm(["High", "Medium", "Low"], projectsList, toDoObj);
   });
   const minimiseBtn = document.createElement("button");
   minimiseBtn.textContent = "^";
@@ -248,12 +327,9 @@ function expandToDoItem(toDoObj, projectsList, id) {
   toDoItem.appendChild(description);
   toDoItem.appendChild(priority);
   toDoItem.appendChild(project);
+  toDoItem.appendChild(editBtn);
   toDoItem.appendChild(minimiseBtn);
 }
-
-//minimise todo item
-
-function minimiseToDoItem() {}
 
 //display project buttons
 
@@ -333,4 +409,5 @@ export {
   displayProjectList,
   removeAllChildNodes,
   displayProjectInfo,
+  updateProjectInfo,
 };

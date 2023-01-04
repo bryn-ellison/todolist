@@ -20,13 +20,23 @@
   "homepage": "https://github.com/bryn-ellison/todolist#readme",
   "devDependencies": {
     "css-loader": "^6.7.2",
+    "express": "^4.18.2",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
+    "webpack-dev-middleware": "^6.0.1",
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "date-fns": "^2.29.3"
+    "assertion-error": "^2.0.0",
+    "crypto": "^1.0.1",
+    "date-fns": "^2.29.3",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "path": "^0.12.7",
+    "path-browserify": "^1.0.1",
+    "stream": "^0.0.2",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5"
   }
 }

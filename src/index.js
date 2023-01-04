@@ -10,6 +10,7 @@ import {
   displayProjectList,
   removeAllChildNodes,
   displayProjectInfo,
+  updateProjectInfo,
 } from "./DOM-update";
 import { createProject } from "./projects";
 
@@ -38,6 +39,10 @@ function addToDoToList(newTodo) {
 function deleteToDo(todoTitle, todoProject) {
   todoMainList = todoMainList.filter((todo) => todo.title != todoTitle);
   sortToDoByProject(todoProject);
+  const projectInfo = projectsList.find(
+    (element) => element.title === todoProject
+  );
+  updateProjectInfo(projectInfo);
 }
 
 // add new projects to project list
@@ -51,6 +56,27 @@ function addToProjectList(newProject) {
 function addProjectToToDo(toDoTitle, selection) {
   const found = todoMainList.find((todo) => todo.title === toDoTitle);
   found.project = selection;
+}
+
+// edit todo item
+
+function editToDo(
+  originalTitle,
+  title,
+  description,
+  dueDate,
+  priority,
+  project
+) {
+  for (let i = 0; i < todoMainList.length; i++) {
+    if (todoMainList[i].title === originalTitle) {
+      todoMainList[i].title = title;
+      todoMainList[i].description = description;
+      todoMainList[i].dueDate = dueDate;
+      todoMainList[i].priority = priority;
+      todoMainList[i].project = project;
+    }
+  }
 }
 
 //sort todos by project
@@ -74,11 +100,33 @@ function sortToDoByProject(project) {
 
 //create test todo items
 
-addToDoToList(createToDo("Task 1", "This is a test task", "1/1/2023", "High"));
 addToDoToList(
-  createToDo("Task 2", "Test task 2 is here", "2/2/2025", "Medium")
+  createToDo(
+    "Task 1",
+    "This is a test task",
+    new Date(2023, 1, 11),
+    "High",
+    "All tasks"
+  )
 );
-addToDoToList(createToDo("Task 3", "Test task 3 is here", "20/01/2024", "Low"));
+addToDoToList(
+  createToDo(
+    "Task 2",
+    "Test task 2 is here",
+    new Date(2023, 2, 22),
+    "Medium",
+    "All tasks"
+  )
+);
+addToDoToList(
+  createToDo(
+    "Task 3",
+    "Test task 3 is here",
+    new Date(2023, 6, 1),
+    "Low",
+    "Project 2"
+  )
+);
 
 //create test project items
 
@@ -111,4 +159,5 @@ export {
   addToDoToList,
   deleteToDo,
   addToProjectList,
+  editToDo,
 };
