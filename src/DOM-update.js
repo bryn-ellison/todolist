@@ -136,10 +136,6 @@ function displayEditForm(priorities, projectsList, toDoObj) {
   const dateInput = document.createElement("input");
   dateInput.classList = "form-inputs";
   dateInput.type = "date";
-
-  //const newDate = format(parseISO(toDoObj.dueDate), "YYYY/MM/DD");
-  //console.log(newDate);
-  // dateInput.value = toDoObj.dueDate;
   dateInput.defaultValue = toDoObj.dueDate;
   const priorityInput = document.createElement("select");
   priorityInput.classList = "form-inputs";
@@ -255,8 +251,6 @@ function updateProjectListDisplay(projectsList) {
   const main = document.getElementById("main");
   main.replaceChild(displayProjectList(projectsList), main.childNodes[0]);
 }
-
-//build footer
 
 //display todo item
 

@@ -1,28 +1,36 @@
 import "./style.css";
-import { formatDistance, subDays } from "date-fns";
-import { createToDo } from "./todos";
 import {
-  displayToDo,
   displayToDoList,
   displayHeader,
   displayMain,
-  displayProject,
   displayProjectList,
-  removeAllChildNodes,
   displayProjectInfo,
   updateProjectInfo,
 } from "./DOM-update";
-import { createProject } from "./projects";
 
 const content = document.querySelector("#content");
 
 // store projects list
 
-const projectsList = [];
+let projectsList = [
+  {
+    description: "All tasks in any project are displayed here",
+    priority: "No priority",
+    title: "All tasks",
+  },
+];
+
+if (localStorage.getItem("projectStorage")) {
+  projectsList = JSON.parse(localStorage.getItem("projectStorage"));
+}
 
 // store todo list
 
 let todoMainList = [];
+
+if (localStorage.getItem("toDoStorage")) {
+  todoMainList = JSON.parse(localStorage.getItem("toDoStorage"));
+}
 
 // priorities array
 
@@ -32,6 +40,7 @@ const priorities = ["High", "Medium", "Low"];
 
 function addToDoToList(newTodo) {
   todoMainList.push(newTodo);
+  localStorage.setItem("toDoStorage", JSON.stringify(todoMainList));
 }
 
 // delete todo from list
@@ -42,6 +51,7 @@ function deleteToDo(todoTitle, todoProject) {
   const projectInfo = projectsList.find(
     (element) => element.title === todoProject
   );
+  localStorage.setItem("toDoStorage", JSON.stringify(todoMainList));
   updateProjectInfo(projectInfo);
 }
 
@@ -49,6 +59,7 @@ function deleteToDo(todoTitle, todoProject) {
 
 function addToProjectList(newProject) {
   projectsList.push(newProject);
+  localStorage.setItem("projectStorage", JSON.stringify(projectsList));
 }
 
 // add project to todo item
@@ -77,6 +88,7 @@ function editToDo(
       todoMainList[i].project = project;
     }
   }
+  localStorage.setItem("toDoStorage", JSON.stringify(todoMainList));
 }
 
 //sort todos by project
@@ -98,53 +110,11 @@ function sortToDoByProject(project) {
   }
 }
 
-//create test todo items
-
-// addToDoToList(
-//   createToDo(
-//     "Task 1",
-//     "This is a test task",
-//     new Date(2023, 1, 11),
-//     "High",
-//     "All tasks"
-//   )
-// );
-// addToDoToList(
-//   createToDo(
-//     "Task 2",
-//     "Test task 2 is here",
-//     new Date(2023, 2, 22),
-//     "Medium",
-//     "All tasks"
-//   )
-// );
-// addToDoToList(
-//   createToDo(
-//     "Task 3",
-//     "Test task 3 is here",
-//     new Date(2023, 6, 1),
-//     "Low",
-//     "Project 2"
-//   )
-// );
-
-//create test project items
-
-const allTasks = createProject(
-  "All tasks",
-  "All tasks in any project are displayed here",
-  "No priority"
-);
-
-addToProjectList(allTasks);
-
-addToProjectList(createProject("Project 2", "Pro 2 desc", "High"));
-
 //append content to page
 
 const main = displayMain();
 const projectListDisplay = displayProjectList(projectsList);
-const loadProjectInfo = displayProjectInfo(allTasks);
+const loadProjectInfo = displayProjectInfo(projectsList[0]);
 const toDoListDisplay = displayToDoList(todoMainList, projectsList);
 
 content.appendChild(displayHeader(priorities, projectsList, todoMainList));
