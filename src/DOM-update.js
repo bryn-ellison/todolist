@@ -275,7 +275,10 @@ function displayToDo(toDoObj, projectsList) {
   });
   const dueDate = document.createElement("p");
   dueDate.classList = "todo-item-duedate";
-  dueDate.textContent = toDoObj.dueDate;
+  dueDate.textContent = `Due on: ${format(
+    parseISO(toDoObj.dueDate),
+    "dd/MM/yyyy"
+  )}`;
   const expandBtn = document.createElement("button");
   expandBtn.textContent = "⌄";
   expandBtn.addEventListener("click", () => {

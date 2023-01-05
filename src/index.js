@@ -100,33 +100,33 @@ function sortToDoByProject(project) {
 
 //create test todo items
 
-addToDoToList(
-  createToDo(
-    "Task 1",
-    "This is a test task",
-    new Date(2023, 1, 11),
-    "High",
-    "All tasks"
-  )
-);
-addToDoToList(
-  createToDo(
-    "Task 2",
-    "Test task 2 is here",
-    new Date(2023, 2, 22),
-    "Medium",
-    "All tasks"
-  )
-);
-addToDoToList(
-  createToDo(
-    "Task 3",
-    "Test task 3 is here",
-    new Date(2023, 6, 1),
-    "Low",
-    "Project 2"
-  )
-);
+// addToDoToList(
+//   createToDo(
+//     "Task 1",
+//     "This is a test task",
+//     new Date(2023, 1, 11),
+//     "High",
+//     "All tasks"
+//   )
+// );
+// addToDoToList(
+//   createToDo(
+//     "Task 2",
+//     "Test task 2 is here",
+//     new Date(2023, 2, 22),
+//     "Medium",
+//     "All tasks"
+//   )
+// );
+// addToDoToList(
+//   createToDo(
+//     "Task 3",
+//     "Test task 3 is here",
+//     new Date(2023, 6, 1),
+//     "Low",
+//     "Project 2"
+//   )
+// );
 
 //create test project items
 
