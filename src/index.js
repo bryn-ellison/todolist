@@ -12,6 +12,8 @@ const content = document.querySelector("#content");
 
 // store projects list
 
+//localStorage.clear();
+
 let projectsList = [
   {
     description: "All tasks in any project are displayed here",
@@ -30,6 +32,12 @@ let todoMainList = [];
 
 if (localStorage.getItem("toDoStorage")) {
   todoMainList = JSON.parse(localStorage.getItem("toDoStorage"));
+}
+
+// serve main todo list
+
+function getMainToDoList() {
+  return todoMainList;
 }
 
 // priorities array
@@ -130,4 +138,5 @@ export {
   deleteToDo,
   addToProjectList,
   editToDo,
+  getMainToDoList,
 };

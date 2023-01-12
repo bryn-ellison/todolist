@@ -5,6 +5,7 @@ import {
   deleteToDo,
   addToProjectList,
   editToDo,
+  getMainToDoList,
 } from "./index";
 import { createProject } from "./projects";
 import { createToDo } from "./todos";
@@ -48,17 +49,39 @@ function displayMain() {
 
 //display add todo form
 
-function displayAddForm(priorities, projectsList, toDoList) {
+function displayAddForm(priorities, projectsList) {
+  const toDoList = getMainToDoList();
+  let todoTitles = [];
+  toDoList.forEach((element) => todoTitles.push(element.title));
+  console.log(todoTitles);
   const main = document.querySelector("#content");
   const disableClick = document.createElement("div");
   disableClick.classList = "disable-outside-clicks";
   const form = document.createElement("div");
+  form.noValidate = true;
   const formTitle = document.createElement("h2");
   formTitle.textContent = "Add new ToDo";
   form.classList = "add-form";
   const titleInput = document.createElement("input");
   titleInput.classList = "form-inputs";
   titleInput.placeholder = "Task title";
+  titleInput.required = true;
+  titleInput.addEventListener("focusout", () => {
+    if (todoTitles.includes(titleInput.value)) {
+      titleError.textContent =
+        "This task title already exists, please choose another name for your task";
+      titleError.className = "error active";
+      showError();
+    } else if (titleInput.validity.valid) {
+      titleError.textContent = "";
+      titleError.className = "error";
+    } else {
+      showError();
+    }
+  });
+  const titleError = document.createElement("span");
+  titleError.className = "error";
+  titleError.ariaLive = "polite";
   const descriptionInput = document.createElement("textarea");
   descriptionInput.classList = "form-inputs";
   descriptionInput.placeholder = "Description";
@@ -67,6 +90,18 @@ function displayAddForm(priorities, projectsList, toDoList) {
   const dateInput = document.createElement("input");
   dateInput.classList = "form-inputs";
   dateInput.type = "date";
+  dateInput.required = true;
+  dateInput.addEventListener("focusout", () => {
+    if (dateInput.validity.valid) {
+      dateError.textContent = "";
+      dateError.className = "error";
+    } else {
+      showError();
+    }
+  });
+  const dateError = document.createElement("span");
+  dateError.className = "error";
+  dateError.ariaLive = "polite";
   const priorityInput = document.createElement("select");
   priorityInput.classList = "form-inputs";
   priorities.forEach((element) => {
@@ -91,22 +126,43 @@ function displayAddForm(priorities, projectsList, toDoList) {
   submit.textContent = "CREATE";
   submit.classList = "form-button";
   submit.addEventListener("click", () => {
-    addToDoToList(
-      createToDo(
-        titleInput.value,
-        descriptionInput.value,
-        dateInput.value,
-        priorityInput.value,
-        project.value
-      )
-    );
-    sortToDoByProject(project.value);
-    main.removeChild(disableClick);
+    if (
+      titleError.className === "error active" ||
+      dateError.className === "error active" ||
+      titleInput.value === ""
+    ) {
+      showError();
+      return;
+    } else {
+      addToDoToList(
+        createToDo(
+          titleInput.value,
+          descriptionInput.value,
+          dateInput.value,
+          priorityInput.value,
+          project.value
+        )
+      );
+      sortToDoByProject(project.value);
+      main.removeChild(disableClick);
+    }
   });
+  function showError() {
+    if (titleInput.validity.valueMissing) {
+      titleError.textContent = "Please input a valid title for your task";
+      titleError.className = "error active";
+    }
+    if (dateInput.validity.valueMissing) {
+      dateError.textContent = "Please select a date";
+      dateError.className = "error active";
+    }
+  }
   form.appendChild(formTitle);
   form.appendChild(titleInput);
+  form.appendChild(titleError);
   form.appendChild(descriptionInput);
   form.appendChild(dateInput);
+  form.appendChild(dateError);
   form.appendChild(priorityInput);
   form.appendChild(project);
   form.appendChild(cancelBtn);
